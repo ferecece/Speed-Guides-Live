@@ -39,9 +39,48 @@ Support my developments: https://www.patreon.com/iNightGaming
 
 If you like the app, or have some suggestions, send me a shout-out on my Twitter: https://twitter.com/inightfaller
 
-## Additions by Phantom5800
+# Additions by Phantom5800
 
 - Notes are now markdown formatted.
 - Editor window provides a preview of markdown formatting.
 - Images are supported (currently needs a full path and does not support resizing in markdown).
 - In addition to SpeedGuidesLive.dll, Markdig.dll and System.Memory.dll, System.Runtime.CompilerServices.Unsafe.dll need to be copied over to LiveSplit as well.
+
+## Markdown Notes Example
+
+<table>
+<tr>
+<td>
+
+## Notes
+
+</td>
+<td>
+
+## Result
+
+</td>
+</tr>
+<tr>
+<td width="60%">
+
+```markdown
+# Look at Fish
+
+* Reg Crackshot
+* Slot in TrnArrw (replace Recv L or AreaGrab)
+
+# Aquarium Comps
+
+## Comp1
+![](C:/Git/Splits/BattleNetwork/images/bn6/LButton1.png)
+```
+
+</td>
+<td>
+<img src="readme/markdown_example1.png">
+</td>
+</tr>
+</table>
+
+
