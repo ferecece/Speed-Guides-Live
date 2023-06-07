@@ -83,7 +83,8 @@ namespace LiveSplit.SpeedGuidesLive
             m_component.Settings.BackgroundColorChangedEvent += OnBackgroundColorChanged;
             m_component.Settings.TextColorChangedEvent += OnTextColorChanged;
             m_component.Settings.FontChangedEvent += OnFontChanged;
-            m_component.Settings.MardownEnableChangedEvent += OnMarkdownChanged;
+            m_component.Settings.MarkdownEnableChangedEvent += OnMarkdownChanged;
+            m_component.Settings.PositionSetBySettingsEvent += OnPositionBySettingsChanged;
 
             // Debug
             m_component.Settings.DebugCenterEvent += OnDebugCenter;
@@ -100,7 +101,8 @@ namespace LiveSplit.SpeedGuidesLive
             m_component.Settings.BackgroundColorChangedEvent -= OnBackgroundColorChanged;
             m_component.Settings.TextColorChangedEvent -= OnTextColorChanged;
             m_component.Settings.FontChangedEvent -= OnFontChanged;
-            m_component.Settings.MardownEnableChangedEvent -= OnMarkdownChanged;
+            m_component.Settings.MarkdownEnableChangedEvent -= OnMarkdownChanged;
+            m_component.Settings.PositionSetBySettingsEvent -= OnPositionBySettingsChanged;
 
             // Debug
             m_component.Settings.DebugCenterEvent -= OnDebugCenter;
@@ -214,20 +216,20 @@ namespace LiveSplit.SpeedGuidesLive
 
             // set the styles for the browser window based on user settings
             return
-                $@"<html><head><style>
-                    html,body{{
-                        background-color: rgb({m_backgroundColor.R}, {m_backgroundColor.G}, {m_backgroundColor.B});
-                        color: rgb({m_textColor.R}, {m_textColor.G}, {m_textColor.B});
-                        font-family: {m_component.Settings.GuideFont.Name};
-                        font-size: {m_component.Settings.GuideFont.Size}px;
-                    }}
-                    img{{max-width:100%;}}
-                    pre{{word-wrap:break-word;}}
-                </style></head>
-                <body>
-                    {notes}
-                </body>
-                </html>";
+                 $@"<html><head><style>
+                          html,body{{
+                                background-color: rgb({m_backgroundColor.R}, {m_backgroundColor.G}, {m_backgroundColor.B});
+                                color: rgb({m_textColor.R}, {m_textColor.G}, {m_textColor.B});
+                                font-family: {m_component.Settings.GuideFont.Name};
+                                font-size: {m_component.Settings.GuideFont.Size}px;
+                          }}
+                          img{{max-width:100%;}}
+                          pre{{word-wrap:break-word;}}
+                     </style></head>
+                     <body>
+                          {notes}
+                     </body>
+                     </html>";
         }
 
         /// <summary>
@@ -238,7 +240,7 @@ namespace LiveSplit.SpeedGuidesLive
         {
             // fill in the browser document contents with raw html containing the user notes
             if (Browser.Document != null)
-            {                
+            {
                 HtmlDocument doc = Browser.Document.OpenNew(true);
                 doc.Write(GenerateHtmlFromMD(text));
                 doc.MouseDown += Document_MouseDown;
@@ -274,7 +276,7 @@ namespace LiveSplit.SpeedGuidesLive
                 return;
             }
 
-            if(!File.Exists(splitTxtPath))
+            if (!File.Exists(splitTxtPath))
             {
                 if (!Directory.Exists(Path.GetDirectoryName(splitTxtPath)))
                     return;
@@ -285,7 +287,7 @@ namespace LiveSplit.SpeedGuidesLive
             {
                 splitTxtPath += ".txt";
             }
-            else if(".txt" != ext)
+            else if (".txt" != ext)
             {
                 splitTxtPath.Replace(ext, ".txt");
             }
@@ -294,7 +296,7 @@ namespace LiveSplit.SpeedGuidesLive
             {
                 File.WriteAllText(splitTxtPath, text);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine("Failed to write split guide to txt: " + e.Message);
             }
@@ -348,7 +350,7 @@ namespace LiveSplit.SpeedGuidesLive
         /// </summary>
         private void SGLGuideWindow_MouseDown(object sender, MouseEventArgs e)
         {
-            if  (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 ReleaseCapture();
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
@@ -394,6 +396,15 @@ namespace LiveSplit.SpeedGuidesLive
             RefreshGuide();
         }
 
+        private void OnPositionBySettingsChanged()
+        {
+            SetPosition(m_component.Settings.WindowPos);
+            SetSize(m_component.Settings.WindowSize);
+            Invalidate();
+            RefreshGuide();
+            SetGuideText(string.Empty);
+        }
+
         private void OnBackgroundColorChanged(Color color)
         {
             m_backgroundColor = color;
@@ -411,7 +422,7 @@ namespace LiveSplit.SpeedGuidesLive
         private void SetPosition(Point pos)
         {
             Location = pos;
-            if(null != m_component)
+            if (null != m_component)
             {
                 m_component.Settings.WindowPos = pos;
             }

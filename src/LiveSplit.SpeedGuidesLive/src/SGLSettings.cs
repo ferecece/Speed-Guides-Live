@@ -54,6 +54,8 @@ namespace LiveSplit.SpeedGuidesLive
         public ColorChangedEventHandler BackgroundColorChangedEvent { get; set; }
         public ColorChangedEventHandler TextColorChangedEvent { get; set; }
 
+        public delegate void PositionOverrideEventHandler();
+        public PositionOverrideEventHandler PositionSetBySettingsEvent { get; set; }
         public Point WindowPos { get { return m_windowPos; } set { m_windowPos = value; } }
         public Size WindowSize { get { return m_windowSize; } set { m_windowSize = value; } }
 
@@ -61,7 +63,7 @@ namespace LiveSplit.SpeedGuidesLive
 
         public bool MarkdownEnabled { get { return m_markdownEnabled.Checked; } }
         public delegate void MardownEnableChangeEventHandler(bool isEnabled);
-        public MardownEnableChangeEventHandler MardownEnableChangedEvent { get; set; }
+        public MardownEnableChangeEventHandler MarkdownEnableChangedEvent { get; set; }
 
         // Debug
         public delegate void DebugCenterEventHandler();
@@ -91,7 +93,7 @@ namespace LiveSplit.SpeedGuidesLive
             Load += Settings_Load;
             try
             {
-                if(null != TopLevelControl)
+                if (null != TopLevelControl)
                     ((Form)TopLevelControl).FormClosing += OnClosing;
             }
             catch (Exception)
@@ -152,7 +154,7 @@ namespace LiveSplit.SpeedGuidesLive
             Version version = Version.Parse(settings["Version"].InnerText);
 
             fontComboBox.SelectedItem = m_fontName = settings["FontName"] != null ? settings["FontName"].InnerText : m_fontName;
-            fontSizeNumeric.Value =  m_fontSize = settings["FontSize"] != null ? int.Parse(settings["FontSize"].InnerText) : m_fontSize;
+            fontSizeNumeric.Value = m_fontSize = settings["FontSize"] != null ? int.Parse(settings["FontSize"].InnerText) : m_fontSize;
             UpdateFont();
 
             int bgColorR = settings["BGColor.R"] != null ? int.Parse(settings["BGColor.R"].InnerText) : m_backgroundColor.R;
@@ -170,10 +172,12 @@ namespace LiveSplit.SpeedGuidesLive
             int windowPosX = settings["WindowPos.X"] != null ? int.Parse(settings["WindowPos.X"].InnerText) : m_windowPos.X;
             int windowPosY = settings["WindowPos.Y"] != null ? int.Parse(settings["WindowPos.Y"].InnerText) : m_windowPos.Y;
             m_windowPos = new Point(windowPosX, windowPosY);
-            
+
             int windowSizeWidth = settings["WindowSize.Width"] != null ? int.Parse(settings["WindowSize.Width"].InnerText) : m_windowSize.Width;
             int windowSizeHeight = settings["WindowSize.Height"] != null ? int.Parse(settings["WindowSize.Height"].InnerText) : m_windowSize.Height;
             m_windowSize = new Size(windowSizeWidth, windowSizeHeight);
+
+            UpdateGuideSettings();
 
             activeSplitTextCheckBox.Checked = 0 != m_activeSplitTxtOutputPath.Length;
 
@@ -204,7 +208,7 @@ namespace LiveSplit.SpeedGuidesLive
 
         private void editButton_Click(object sender, EventArgs e)
         {
-            if(null == m_editorWindow)
+            if (null == m_editorWindow)
             {
                 m_editorWindow = new SGLGuideEditor(m_component.State);
                 m_editorWindow.Show();
@@ -227,17 +231,17 @@ namespace LiveSplit.SpeedGuidesLive
         private void UpdateFont()
         {
             m_guideFont = new Font(m_fontName, (float)m_fontSize);
-            if(null != FontChangedEvent)
+            if (null != FontChangedEvent)
                 FontChangedEvent.Invoke(m_guideFont);
         }
 
         private void backgroundColorButton_Click(object sender, EventArgs e)
         {
             colorDialog1.Color = m_backgroundColor;
-            if(colorDialog1.ShowDialog() == DialogResult.OK)
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
                 backgroundColorDisplay.BackColor = m_backgroundColor = colorDialog1.Color;
-                if(null != BackgroundColorChangedEvent)
+                if (null != BackgroundColorChangedEvent)
                     BackgroundColorChangedEvent.Invoke(m_backgroundColor);
             }
         }
@@ -253,6 +257,17 @@ namespace LiveSplit.SpeedGuidesLive
             }
         }
 
+        private void UpdateGuideSettings()
+        {
+            UpdateFont();
+            if (null != BackgroundColorChangedEvent)
+                BackgroundColorChangedEvent.Invoke(m_backgroundColor);
+            if (null != TextColorChangedEvent)
+                TextColorChangedEvent.Invoke(m_textColor);
+            if (null != PositionSetBySettingsEvent)
+                PositionSetBySettingsEvent.Invoke();
+        }
+
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://www.nightgamedev.com/");
@@ -265,13 +280,13 @@ namespace LiveSplit.SpeedGuidesLive
 
         private void debugCenterButton_Click(object sender, EventArgs e)
         {
-            if(null != DebugCenterEvent)
+            if (null != DebugCenterEvent)
                 DebugCenterEvent.Invoke();
         }
 
         private void debugResizeButton_Click(object sender, EventArgs e)
         {
-            if(null != DebugResizeEvent)
+            if (null != DebugResizeEvent)
                 DebugResizeEvent.Invoke();
         }
 
@@ -305,7 +320,7 @@ namespace LiveSplit.SpeedGuidesLive
         {
             int x = 0;
             int y = 0;
-            if(!clear && null != SGLGuideWindow.GuideWindow)
+            if (!clear && null != SGLGuideWindow.GuideWindow)
             {
                 x = SGLGuideWindow.GuideWindow.Location.X;
                 y = SGLGuideWindow.GuideWindow.Location.Y;
@@ -347,7 +362,7 @@ namespace LiveSplit.SpeedGuidesLive
         private void activeSplitTextPathBtn_Click(object sender, EventArgs e)
         {
             SaveFileDialog dlg = new SaveFileDialog();
-            if(DialogResult.OK == dlg.ShowDialog(this))
+            if (DialogResult.OK == dlg.ShowDialog(this))
             {
                 m_activeSplitTxtOutputPath = dlg.FileName;
                 string ext = System.IO.Path.GetExtension(m_activeSplitTxtOutputPath);
@@ -371,8 +386,8 @@ namespace LiveSplit.SpeedGuidesLive
         }
 
 
-		private void spreadsheetImport_Click(object sender, EventArgs e)
-		{
+        private void spreadsheetImport_Click(object sender, EventArgs e)
+        {
             try
             {
                 using (OpenFileDialog openFileDialog = new OpenFileDialog())
@@ -395,28 +410,28 @@ namespace LiveSplit.SpeedGuidesLive
                                 // Copy all of the possible splits...
                                 //  We do this just in case we have more than one split of the same name
                                 List<Guide.Split> remainingSplits = new List<Guide.Split>(guide.Splits);
-                                while(!reader.EndOfStream)
-								{
+                                while (!reader.EndOfStream)
+                                {
                                     string line = reader.ReadLine();
                                     int firstTabIndex = line.IndexOf('\t');
-                                    if(-1 == firstTabIndex)
-									{
+                                    if (-1 == firstTabIndex)
+                                    {
                                         continue;
-									}
+                                    }
 
                                     string name = line.Substring(0, firstTabIndex);
                                     string note = ((line.Length - 1) != firstTabIndex) ? line.Substring(firstTabIndex + 1) : "";
 
                                     // Look for the first split with this name
-                                    for(int i = 0; i < remainingSplits.Count; ++i)
-									{
-                                        if(remainingSplits[i].Name == name)
-										{
+                                    for (int i = 0; i < remainingSplits.Count; ++i)
+                                    {
+                                        if (remainingSplits[i].Name == name)
+                                        {
                                             remainingSplits[i].Note = note;
                                             remainingSplits.RemoveAt(i);
                                             break;
-										}
-									}
+                                        }
+                                    }
                                 }
 
                                 string existingFileName = Guide.SplitsPathToGuidePath(m_component.State.Run.FilePath);
@@ -430,11 +445,11 @@ namespace LiveSplit.SpeedGuidesLive
                                         System.Windows.Forms.MessageBox.Show(this, "We saved a backup of your old guide file at:\n\n\"" + backupFileName + "\"", "Guide succesfully imported");
                                     }
                                     catch (System.Exception)
-                                    { 
+                                    {
                                     }
                                 }
                                 else
-								{
+                                {
                                     guide.Save(m_component.State.Run.FilePath);
                                 }
                             }
@@ -442,14 +457,14 @@ namespace LiveSplit.SpeedGuidesLive
                     }
                 }
             }
-            catch (System.Exception exception) 
+            catch (System.Exception exception)
             {
                 System.Windows.Forms.MessageBox.Show(this, "Failed to import tsv: " + exception.Message, "Import Failed!");
             }
         }
 
-		private void spreadsheetExport_Click(object sender, EventArgs e)
-		{
+        private void spreadsheetExport_Click(object sender, EventArgs e)
+        {
             SaveFileDialog dlg = new SaveFileDialog();
             if (DialogResult.OK == dlg.ShowDialog(this))
             {
@@ -469,8 +484,8 @@ namespace LiveSplit.SpeedGuidesLive
                         string name = guide.Splits[i].Name;
                         string note = guide.Splits[i].Note;
 
-                        if(name.Contains('\t'))
-						{
+                        if (name.Contains('\t'))
+                        {
                             System.Windows.Forms.MessageBox.Show(this, "You have a split name with a tab in it and cannot export...\nPlease remove any tabs from your split names, and try again\nSplit Name: \"" + name + "\"", "Export Failed!");
                             return;
                         }
@@ -499,7 +514,7 @@ namespace LiveSplit.SpeedGuidesLive
 
         private void markdownEnabled_CheckedChanged(object sender, EventArgs e)
         {
-            MardownEnableChangedEvent.Invoke(m_markdownEnabled.Checked);
+            MarkdownEnableChangedEvent.Invoke(m_markdownEnabled.Checked);
         }
     }
 }
