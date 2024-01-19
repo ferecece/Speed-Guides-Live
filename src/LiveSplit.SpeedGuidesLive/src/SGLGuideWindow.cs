@@ -26,6 +26,8 @@ namespace LiveSplit.SpeedGuidesLive
 
         private Size m_startingSize = Size.Empty;
 
+        private SGLGuideEditor m_editorWindow = null;
+
         private SGLComponent m_component = null;
         private Form m_parentForm = null;
         private ILayout m_layout = null;
@@ -446,6 +448,21 @@ namespace LiveSplit.SpeedGuidesLive
         private void OnDebugResize()
         {
             SetSize(SGLSettings.StartingSize);
+        }
+
+        private void OnGuideEditorClosed(object sender, FormClosedEventArgs e)
+        {
+            m_editorWindow = null;
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (m_editorWindow == null)
+            {
+                m_editorWindow = new SGLGuideEditor(m_component.State);
+                m_editorWindow.Show();
+                m_editorWindow.FormClosed += OnGuideEditorClosed;
+            }
         }
     }
 }

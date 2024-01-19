@@ -28,8 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SGLGuideWindow));
             this.Browser = new System.Windows.Forms.WebBrowser();
+            this.SGLGuideRMBMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SGLGuideRMBMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // Browser
@@ -50,6 +54,20 @@
             this.Browser.TabStop = false;
             this.Browser.WebBrowserShortcutsEnabled = false;
             // 
+            // SGLGuideRMBMenu
+            // 
+            this.SGLGuideRMBMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editToolStripMenuItem});
+            this.SGLGuideRMBMenu.Name = "SGLGuideRMBMenu";
+            this.SGLGuideRMBMenu.Size = new System.Drawing.Size(181, 48);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
+            // 
             // SGLGuideWindow
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -66,6 +84,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SGLGuideWindow";
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SGLGuideWindow_MouseDown);
+            this.SGLGuideRMBMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -73,5 +92,7 @@
         #endregion
 
         private System.Windows.Forms.WebBrowser Browser;
+        private System.Windows.Forms.ContextMenuStrip SGLGuideRMBMenu;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
     }
 }
