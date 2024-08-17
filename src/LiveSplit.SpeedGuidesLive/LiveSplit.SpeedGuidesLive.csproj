@@ -54,10 +54,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LiveSplit.Core">
-      <HintPath>..\ext\libs\LiveSplit.Core.dll</HintPath>
+      <HintPath>..\..\..\LiveSplit\bin\release\LiveSplit.Core.dll</HintPath>
     </Reference>
     <Reference Include="LiveSplit.Splits">
-      <HintPath>..\ext\libs\LiveSplit.Splits.dll</HintPath>
+      <HintPath>..\..\..\LiveSplit\bin\release\Components\LiveSplit.Splits.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -72,7 +72,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="UpdateManager, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ext\libs\UpdateManager.dll</HintPath>
+      <HintPath>..\..\..\LiveSplit\bin\release\UpdateManager.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

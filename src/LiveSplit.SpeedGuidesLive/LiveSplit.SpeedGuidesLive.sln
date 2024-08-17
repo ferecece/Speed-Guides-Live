@@ -1,26 +1,55 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31829.152
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35208.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveSplit.SpeedGuidesLive", "LiveSplit.SpeedGuidesLive.csproj", "{B38A7FC8-7917-4F07-869E-BCEDAE6BA1C5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Markdig", "..\ext\markdig\src\Markdig\Markdig.csproj", "{2BC64BEF-90D6-479C-A1EC-A2541C803B9A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveSplit.Splits", "..\..\..\LiveSplit\components\LiveSplit.Splits\src\LiveSplit.Splits\LiveSplit.Splits.csproj", "{C1E203C7-4CC9-4FE3-B13F-EDF239726A7A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveSplit.Core", "..\..\..\LiveSplit\src\LiveSplit.Core\LiveSplit.Core.csproj", "{E3F155DE-31ED-45CA-936F-9091DB5C31A9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UpdateManager", "..\..\..\LiveSplit\src\UpdateManager\UpdateManager.csproj", "{1B57606C-AD44-472F-9399-7F65EE22F671}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		UpdateManagerExe|Any CPU = UpdateManagerExe|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B38A7FC8-7917-4F07-869E-BCEDAE6BA1C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B38A7FC8-7917-4F07-869E-BCEDAE6BA1C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B38A7FC8-7917-4F07-869E-BCEDAE6BA1C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B38A7FC8-7917-4F07-869E-BCEDAE6BA1C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B38A7FC8-7917-4F07-869E-BCEDAE6BA1C5}.UpdateManagerExe|Any CPU.ActiveCfg = Release|Any CPU
+		{B38A7FC8-7917-4F07-869E-BCEDAE6BA1C5}.UpdateManagerExe|Any CPU.Build.0 = Release|Any CPU
 		{2BC64BEF-90D6-479C-A1EC-A2541C803B9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2BC64BEF-90D6-479C-A1EC-A2541C803B9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BC64BEF-90D6-479C-A1EC-A2541C803B9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BC64BEF-90D6-479C-A1EC-A2541C803B9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BC64BEF-90D6-479C-A1EC-A2541C803B9A}.UpdateManagerExe|Any CPU.ActiveCfg = Release|Any CPU
+		{2BC64BEF-90D6-479C-A1EC-A2541C803B9A}.UpdateManagerExe|Any CPU.Build.0 = Release|Any CPU
+		{C1E203C7-4CC9-4FE3-B13F-EDF239726A7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1E203C7-4CC9-4FE3-B13F-EDF239726A7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1E203C7-4CC9-4FE3-B13F-EDF239726A7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1E203C7-4CC9-4FE3-B13F-EDF239726A7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1E203C7-4CC9-4FE3-B13F-EDF239726A7A}.UpdateManagerExe|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1E203C7-4CC9-4FE3-B13F-EDF239726A7A}.UpdateManagerExe|Any CPU.Build.0 = Debug|Any CPU
+		{E3F155DE-31ED-45CA-936F-9091DB5C31A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3F155DE-31ED-45CA-936F-9091DB5C31A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3F155DE-31ED-45CA-936F-9091DB5C31A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3F155DE-31ED-45CA-936F-9091DB5C31A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3F155DE-31ED-45CA-936F-9091DB5C31A9}.UpdateManagerExe|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3F155DE-31ED-45CA-936F-9091DB5C31A9}.UpdateManagerExe|Any CPU.Build.0 = Debug|Any CPU
+		{1B57606C-AD44-472F-9399-7F65EE22F671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B57606C-AD44-472F-9399-7F65EE22F671}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B57606C-AD44-472F-9399-7F65EE22F671}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B57606C-AD44-472F-9399-7F65EE22F671}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B57606C-AD44-472F-9399-7F65EE22F671}.UpdateManagerExe|Any CPU.ActiveCfg = UpdateManagerExe|Any CPU
+		{1B57606C-AD44-472F-9399-7F65EE22F671}.UpdateManagerExe|Any CPU.Build.0 = UpdateManagerExe|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
