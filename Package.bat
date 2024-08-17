@@ -15,14 +15,11 @@ set ZIP_NAME=SpeedGuidesLiveUnofficial_%1.zip
 echo Creating %ZIP_NAME% ...
 
 REM Create the zip file using PowerShell
-powershell Compress-Archive -Path "%OUT_DIR%\*" -DestinationPath "%OUT_DIR%\%ZIP_NAME%" -Force
+powershell Compress-Archive -Path "%OUT_DIR%\LiveSplit\*" -DestinationPath "%OUT_DIR%\%ZIP_NAME%" -Force
 
-REM Delete the files after zipping
+REM Delete the files after zipping except for README.md and licenses
 echo Cleaning up...
 rmdir /S /Q "%OUT_DIR%\LiveSplit"
-del /Q "%OUT_DIR%\README.md"
-del /Q "%OUT_DIR%\LICENSE_SGL.txt"
-del /Q "%OUT_DIR%\LICENSE_Markdig.txt"
 
 goto end
 
